@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cart-container {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-top: 1rem;
+    width: 300px;
+    background-color: #f9f9f9;
+}
+
+#cart-items {
+    list-style: none;
+    padding: 0;
+}
+
+#cart-items li {
+    margin-bottom: 10px;
+}
+
+#cart-total {
+    font-weight: bold;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p id="cart-total">Total: $0</p>
+        <button id="clear-cart">Clear Cart</button>
+    </div>
+    
+    <div class="main-images">
+        <div class="image-1">
+            <img src="asset/cds_450_v2-1.png" alt="Product 1" width="280">
+            <p class="image-text">CDS22-formula<br><span style="font-size:1.3rem; color: rgb(219, 5, 69);">900 billion sachets</span></p>
+            <p>Superior power Potency, 900 billion live bacteria per sachet</p><br>
+            <button class="btn-shop" data-name="Product 1" data-price="20">SHOP NOW</button>
+        </div>
+        <div class="image-2">
+            <img src="asset/cds_450_v2-1.png" alt="Product 2" width="350">
+            <p class="image-text">CDS22-formula<br><span style="font-size:1.3rem; color: #ff2ba7;">900 billion sachets</span></p>
+            <p>Strong and convenient Potency, <b>450 billion live bacteria per sachet</b><br>Format, <b>Box of 12 sachets</b></p>
+            <button class="btn-shop" data-name="Product 2" data-price="30">SHOP NOW</button>
+        </div>
+        <div class="image-3">
+            <img src="asset/cds_450_v2-1.png" alt="Product 3" width="280">
+            <p class="image-text">CDS22-formula<br><span style="font-size:1.3rem; color: rgb(0, 162, 255);">900 billion sachets</span></p>
+            <p>Efficient and flexible Potency, <b>112 billion live bacteria per capsule</b><br>Format: <b>Box of 20 individually packaged capsules</b></p>
+            <button class="btn-shop" data-name="Product 3" data-price="25">SHOP NOW</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const cart = [];
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const clearCartButton = document.getElementById("clear-cart");
+
+    document.querySelectorAll(".btn-shop").forEach(button => {
+        button.addEventListener("click", () => {
+            const productName = button.getAttribute("data-name");
+            const productPrice = parseFloat(button.getAttribute("data-price"));
+
+            const existingProduct = cart.find(item => item.name === productName);
+            if (existingProduct) {
+                existingProduct.quantity++;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+            updateCart();
+        });
+    });
+
+    clearCartButton.addEventListener("click", () => {
+        cart.length = 0; // Clear the cart array
+        updateCart();
+    });
+
+    function updateCart() {
+        cartItems.innerHTML = "";
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+            const li = document.createElement("li");
+            li.textContent = `${item.name} - $${item.price} x ${item.quantity}`;
+            cartItems.appendChild(li);
+        });
+        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+    }
+});
+
+    </script>    
+</body>
+</html>
